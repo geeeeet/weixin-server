@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+    <context:component-scan base-package="pers.lrf.weixinserver.dao"/>
+	<aop:aspectj-autoproxy />
+	
+    <bean id="weixin_dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${weixin.jdbc.driverClassName}"/>
+        <property name="url" value="${weixin.jdbc.url}"/>
+        <property name="username" value="${weixin.jdbc.username}"/>
+        <property name="password" value="${weixin.jdbc.password}"/>
+
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${weixin.druid.initialSize}"/>
+        <property name="minIdle" value="${weixin.druid.minIdle}"/>
+        <property name="maxActive" value="${weixin.druid.maxActive}"/>
+
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${weixin.druid.maxWait}"/>
+
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${weixin.druid.timeBetweenEvictionRunsMillis}"/>
+
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${weixin.druid.minEvictableIdleTimeMillis}"/>
+
+        <property name="testWhileIdle" value="${weixin.druid.testWhileIdle}"/>
+
+        <!-- 防止取到的连接不可用, 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能-->
+        <property name="testOnBorrow" value="${weixin.druid.testOnBorrow}"/>
+        <!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
+        <property name="testOnReturn" value="${weixin.druid.testOnReturn}"/>
+
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。5.5及以上版本有PSCache，建议开启-->
+        <property name="poolPreparedStatements" value="${weixin.druid.poolPreparedStatements}"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize"
+                  value="${weixin.druid.maxPoolPreparedStatementPerConnectionSize}"/>
+
+        <!-- 这里配置提交方式，默认就是TRUE，可以不用配置 -->
+        <property name="defaultAutoCommit" value="true"/>
+
+        <!-- 验证连接有效与否的SQL，不同的数据库配置不同 -->
+        <property name="validationQuery" value="select 1 "/>
+        <!-- 属性类型是字符串，通过别名的方式配置扩展插件，常用的插件有：监控统计用的filter:stat 日志用的filter:log4j 防御sql注入的filter:wall-->
+        <property name="filters" value="stat"/>
+        <property name="proxyFilters">
+            <list>
+                <ref bean="logFilter"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="logFilter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+        <property name="statementExecutableSqlLogEnable" value="false"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="weixin_dataSource"/>
+        <!-- 扫描mapper文件，必须配置 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <property name="configLocation" value="classpath:spring/mybatis.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="pers.lrf.weixinserver.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!-- 事务配置开始 -->
+    <bean id="transactionManager"  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="weixin_dataSource"/>
+    </bean>
+
+    <tx:annotation-driven proxy-target-class="true"/>
+
+    <!--对于方法的细粒度事务配置，符合条件的方法冠以相应的事务-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="delete*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+            <tx:method name="remove*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+            <tx:method name="insert*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+            <tx:method name="add*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+            <tx:method name="update*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+            <tx:method name="save*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception"/>
+
+            <tx:method name="*" propagation="SUPPORTS" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--把事务控制在Service层 -->
+    <aop:config>
+        <!--这里配置规则，满足以下规则的将触发事务，第一个*表示所有返回类型，第二个表示service包下的所有class，第三个表示所有方法-->
+        <aop:pointcut id="servicePointCut" expression="execution(* pers.lrf.weixinserver.service..*.*(..))"/>
+        <aop:advisor pointcut-ref="servicePointCut" advice-ref="txAdvice"/>
+    </aop:config>
+    <!-- 事务配置结束 -->
+</beans>

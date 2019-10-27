@@ -1,0 +1,55 @@
+<included>
+    <property name="PROJECT_NAME" value="weixin"/>
+    <property name="LOG_DIR" value="/wxlog/log_${PROJECT_NAME}"/>
+    <!-- 业务日志文件 -->
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/wx_${PROJECT_NAME}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/yewu_${PROJECT_NAME}_%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!--30天的时间周期内,日志最大1g-->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>5GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder  charset="utf-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <immediateFlush>true</immediateFlush>
+            <providers>
+                <timestamp>
+                    <fieldName>timestamp</fieldName>
+                    <pattern>yyyy-MM-dd HH:mm:ss.SSS</pattern>
+                </timestamp>
+                <mdc />
+                <stackTrace>
+                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                        <maxDepthPerThrowable>30</maxDepthPerThrowable>
+                        <maxLength>2048</maxLength>
+                        <rootCauseFirst>true</rootCauseFirst>
+                        <exclude>sun.reflect</exclude>
+                        <exclude>java.lang.reflect</exclude>
+                        <exclude>org.junit.runners</exclude>
+                        <exclude>org.eclipse.jdt</exclude>
+                    </throwableConverter>
+                </stackTrace>
+                <pattern>
+                    <pattern>
+                        {
+                        "project": "${PROJECT_NAME}",
+                        "thread": "%thread",
+                        "logger": "%logger",
+                        "level": "%level",
+                        "message": "%message"
+                        }
+                    </pattern>
+                </pattern>
+                <charset>UTF-8</charset>
+            </providers>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="utf-8">
+            <pattern>[${PROJECT_NAME}] %d | %-5level | %thread | %logger{36} | %msg%n</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+    </appender>
+</included>

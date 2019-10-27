@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress SpringModelInspection -->
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <mvc:default-servlet-handler/>
+
+    <!-- 自动扫描注入 -->
+    <!--<context:component-scan base-package="pers.lrf.weixinserver">-->
+        <!--<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+        <!--<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>-->
+    <!--</context:component-scan>-->
+
+    <context:component-scan base-package="pers.lrf.weixinserver"/>
+
+    <!-- 会自动注册RequestMappingHandlerMapping与RequestMappingHandlerAdapter两个Bean，
+        这是SpringMVC为@Controllers分发请求所必需的，并提供了数据绑定支持、@NumberFormatannotation支持、
+         @DateTimeFormat支持、@Valid支持、读写XML的支持和读写JSON的支持等功能。 -->
+    <mvc:annotation-driven>
+        <!-- 字符集转换 -->
+        <mvc:message-converters>
+            <bean class="pers.lrf.weixinserver.common.UTF8StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy.MM.dd HH:mm:ss" />
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 配置拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <mvc:mapping path="/*/**" />
+            <!--<mvc:exclude-mapping path="/login"/>-->
+            <!--<mvc:exclude-mapping path="/index"/>-->
+            <!--<mvc:exclude-mapping path="/cheat/**"/>-->
+            <!--<mvc:exclude-mapping path="/rbMQTest/**"/>-->
+            <bean class="pers.lrf.weixinserver.common.interceptor.ServerCallInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- 启用注解 -->
+    <context:annotation-config />
+
+    <!-- 启动定时任务  -->
+    <task:annotation-driven/>
+
+    <!-- 根据项目所用的数据进行选择 -->
+    <context:property-placeholder location="classpath:/config/mysql.properties" />
+    <!--<context:property-placeholder location="classpath:/config/oracle.properties" />-->
+    <!--<context:property-placeholder location="classpath:/config/sqlserver.properties" />-->
+
+    <!-- 加入配置文件 -->
+    <context:property-placeholder location="classpath:config/config.properties" />
+
+    <!-- dao 配置 -->
+    <import resource="classpath:spring/dao.xml"/>
+    <!-- dubbo 配置 -->
+    <import resource="classpath:spring/dubbo-*.xml"/>
+
+    <!-- 统一异常处理 -->
+    <bean id="exceptionResolver" class="pers.lrf.weixinserver.common.exception.MappingExceptionResolver"/>
+
+    <!-- 设置MultipartResolver完成文件上传  -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="5000000" />
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
+</beans>
