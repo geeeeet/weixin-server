@@ -22,7 +22,7 @@ public class WxAccessTokenController extends BaseController {
         String fileName = "config.properties";
         String appid = PropertiesUtil.getValueByKey(fileName,"appid");
         String secret = PropertiesUtil.getValueByKey(fileName,"secret");
-        String token = WxConstant.tokenUrl.replace("myappid",appid).replace("mysecret",secret);
+        String token = WxConstant.tokenUrl.replace("APPID",appid).replace("APPSECRET",secret);
         AccessTokenUtil.getAccessToken(token);
     }
 }

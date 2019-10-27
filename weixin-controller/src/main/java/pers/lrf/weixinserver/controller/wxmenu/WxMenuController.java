@@ -1,9 +1,11 @@
 package pers.lrf.weixinserver.controller.wxmenu;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pers.lrf.weixinserver.common.exception.WxException;
 import pers.lrf.weixinserver.controller.BaseController;
 import pers.lrf.weixinserver.service.smenu.interfaces.IMenuService;
 
@@ -14,6 +16,7 @@ import pers.lrf.weixinserver.service.smenu.interfaces.IMenuService;
 @RestController
 @CrossOrigin
 @RequestMapping("weixin/menu")
+@Slf4j
 public class WxMenuController extends BaseController {
 
     @Autowired
@@ -23,4 +26,17 @@ public class WxMenuController extends BaseController {
     public void createMenu() {
         iMenuService.crateMenu();
     }
+
+    @RequestMapping("getMenu")
+    public String getMenu() {
+        String result = null;
+        try {
+            result = iMenuService.getMenu();
+        } catch (WxException e) {
+            e.printStackTrace();
+            log.error("");
+        }
+        return result;
+    }
+
 }
