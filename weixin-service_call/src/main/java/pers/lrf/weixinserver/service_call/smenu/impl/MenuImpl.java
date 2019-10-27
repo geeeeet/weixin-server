@@ -31,7 +31,9 @@ public class MenuImpl implements IMenu {
 
     @Override
     public String getMenu(String url) throws WxException {
-        return null;
+        RestTemplate restTemplate = new RestTemplate();
+        JSONObject menu = restTemplate.getForObject(url,JSONObject.class);
+        return menu.toJSONString();
     }
 
     @Override
