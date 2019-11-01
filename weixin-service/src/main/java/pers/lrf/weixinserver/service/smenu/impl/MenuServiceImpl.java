@@ -72,11 +72,12 @@ public class MenuServiceImpl implements IMenuService {
 
     @Override
     public String getMenu() throws WxException {
-        return null;
+        String token = AccessTokenUtil.accessToken;
+        String url = MenuAPI.GET_MENU.replace("ACCESS_TOKEN",token);
+        return iMenu.getMenu(url);
     }
 
     @Override
     public void deleteMenu() throws WxException {
-
     }
 }
