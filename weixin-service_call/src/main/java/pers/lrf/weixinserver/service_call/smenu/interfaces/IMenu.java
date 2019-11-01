@@ -29,5 +29,5 @@ public interface IMenu {
      * @param url              api地址
      * @throws WxException     抛出自定义菜单
      */
-    void deleteMenu(String url) throws WxException;
+    Boolean deleteMenu(String url) throws WxException;
 }

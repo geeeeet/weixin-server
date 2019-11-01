@@ -24,5 +24,5 @@ public interface IMenuService {
      * 删除菜单
      * @throws WxException     抛出自定义菜单
      */
-    void deleteMenu() throws WxException;
+    Boolean deleteMenu() throws WxException;
 }

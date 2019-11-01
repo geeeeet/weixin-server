@@ -1,4 +1,4 @@
-package pers.lrf.weixinserver.weixinbean.message.submessage;
+package pers.lrf.weixinserver.weixinbean.message.normal.submessage;
 
 import lombok.Data;
 

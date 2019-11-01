@@ -2,7 +2,6 @@ package pers.lrf.weixinserver.common.utils;
 
 import com.thoughtworks.xstream.XStream;
 import org.dom4j.Element;
-import pers.lrf.weixinserver.weixinbean.message.WxTextMessage;
 
 import java.util.HashMap;
 import java.util.List;

@@ -37,7 +37,13 @@ public class MenuImpl implements IMenu {
     }
 
     @Override
-    public void deleteMenu(String url) throws WxException {
-
+    public Boolean deleteMenu(String url) throws WxException {
+        boolean result = false;
+        RestTemplate restTemplate = new RestTemplate();
+        JSONObject menu = restTemplate.getForObject(url,JSONObject.class);
+        if(!"0".equals(menu.getString("errcode"))){
+            throw new WxException(menu.toJSONString());
+        }
+        return result;
     }
 }

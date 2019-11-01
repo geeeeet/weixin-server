@@ -1,7 +1,7 @@
-package pers.lrf.weixinserver.weixinbean.message;
+package pers.lrf.weixinserver.weixinbean.message.normal;
 
 import lombok.Data;
-import pers.lrf.weixinserver.weixinbean.message.submessage.ImageMessage;
+import pers.lrf.weixinserver.weixinbean.message.normal.submessage.ImageMessage;
 
 /**
  * 图片消息

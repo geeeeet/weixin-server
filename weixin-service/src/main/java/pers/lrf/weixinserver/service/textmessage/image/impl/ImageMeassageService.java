@@ -6,8 +6,8 @@ import pers.lrf.weixinserver.common.constant.MsgType;
 import pers.lrf.weixinserver.common.constant.SafeXml;
 import pers.lrf.weixinserver.common.utils.MessageUtils;
 import pers.lrf.weixinserver.service.interfaces.IImageMeassage;
-import pers.lrf.weixinserver.weixinbean.message.WxImageMessage;
-import pers.lrf.weixinserver.weixinbean.message.submessage.ImageMessage;
+import pers.lrf.weixinserver.weixinbean.message.normal.WxImageMessage;
+import pers.lrf.weixinserver.weixinbean.message.normal.submessage.ImageMessage;
 
 import java.util.Map;
 

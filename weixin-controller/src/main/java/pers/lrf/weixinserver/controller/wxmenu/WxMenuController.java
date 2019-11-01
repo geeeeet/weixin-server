@@ -39,4 +39,16 @@ public class WxMenuController extends BaseController {
         return result;
     }
 
+    @RequestMapping("deleteMenu")
+    public Boolean deleteMenu(){
+        Boolean result = false;
+        try {
+            result = iMenuService.deleteMenu();
+        } catch (WxException e) {
+            e.printStackTrace();
+            log.error("");
+        }
+        return result;
+    }
+
 }

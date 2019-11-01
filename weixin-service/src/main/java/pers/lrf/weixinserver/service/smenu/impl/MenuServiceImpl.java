@@ -78,6 +78,9 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public void deleteMenu() throws WxException {
+    public Boolean deleteMenu() throws WxException {
+        String token = AccessTokenUtil.accessToken;
+        String url = MenuAPI.DELETE_MENU.replace("ACCESS_TOKEN",token);
+        return iMenu.deleteMenu(url);
     }
 }

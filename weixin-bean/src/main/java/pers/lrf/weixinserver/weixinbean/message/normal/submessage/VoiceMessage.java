@@ -1,4 +1,4 @@
-package pers.lrf.weixinserver.weixinbean.message.submessage;
+package pers.lrf.weixinserver.weixinbean.message.normal.submessage;
 
 import jdk.nashorn.internal.objects.annotations.Function;
 import lombok.Data;

@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pers.lrf.weixinserver.common.utils.MessageUtils;
 import pers.lrf.weixinserver.service.textmessage.text.interfaces.ITextMeassage;
-import pers.lrf.weixinserver.weixinbean.message.WxTextMessage;
+import pers.lrf.weixinserver.weixinbean.message.normal.WxTextMessage;
 
 import java.util.Map;
 

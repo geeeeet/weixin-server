@@ -1,7 +1,8 @@
-package pers.lrf.weixinserver.weixinbean.message;
+package pers.lrf.weixinserver.weixinbean.message.normal;
 
 import lombok.Data;
-import pers.lrf.weixinserver.weixinbean.message.submessage.VoiceMessage;
+import pers.lrf.weixinserver.weixinbean.message.normal.BaseMessage;
+import pers.lrf.weixinserver.weixinbean.message.normal.submessage.VoiceMessage;
 
 /**
  * 语音消息
