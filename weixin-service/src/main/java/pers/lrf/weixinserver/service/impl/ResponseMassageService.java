@@ -3,6 +3,7 @@ package pers.lrf.weixinserver.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pers.lrf.weixinserver.common.constant.EventType;
 import pers.lrf.weixinserver.common.constant.MsgType;
 import pers.lrf.weixinserver.common.utils.MessageUtils;
 import pers.lrf.weixinserver.service.interfaces.IImageMeassage;
@@ -48,29 +49,32 @@ public class ResponseMassageService implements IResponseMassage {
             String msgType= map.get("MsgType");
             log.info("请求的消息类型是： "+msgType);
             // 普通文本消息
-            if(msgType.equals(MsgType.TEXT))
-                result = textMeassage.textHandle(map);
+            if(msgType.equals(MsgType.TEXT)) result = textMeassage.textHandle(map);
             // 图片消息
-            if(msgType.equals(MsgType.IMAGE))
-                result = imageMeassage.imageHandl(map);
+            if(msgType.equals(MsgType.IMAGE)) result = imageMeassage.imageHandl(map);
             // 视频消息
-            if(msgType.equals(MsgType.VIDEO))
-                result = videoMessage.videoHandle();
+            if(msgType.equals(MsgType.VIDEO)) result = videoMessage.videoHandle();
             // 短视频消息
-            if (msgType.equals(MsgType.SHORT_VIDEO))
-                result = shortVideoMessage.shortVideoHandle();
+            if (msgType.equals(MsgType.SHORT_VIDEO)) result = shortVideoMessage.shortVideoHandle();
             // 链接消息
-            if (msgType.equals(MsgType.LINK))
-                result = linkMessage.linkHadle();
+            if (msgType.equals(MsgType.LINK)) result = linkMessage.linkHadle();
             // 地理位置消息
-            if (msgType.equals(MsgType.LOCATION))
-                result = locationMessage.locationHandle();
+            if (msgType.equals(MsgType.LOCATION)) result = locationMessage.locationHandle();
             // 语音消息
-            if (msgType.equals(MsgType.VOICE))
-                result = voiceMessage.voiceHandle();
+            if (msgType.equals(MsgType.VOICE)) result = voiceMessage.voiceHandle();
             // 事件类型的消息
             if(msgType.equals(MsgType.EVENT)) {
-
+                String event= map.get("Event");
+                // 扫码关注
+                if(event.equals(EventType.SUBSCRIBE)) result=null;
+                // 取消关注
+                if (event.equals(EventType.UNSUBSCRIBE)) result=null;
+                // 上报地理位置
+                if (event.equals(EventType.LOCATION)) result=null;
+                // 点击菜单，消息推送
+                if (event.equals(EventType.CLICK)) result=null;
+                // 点击菜单，转链接
+                if (event.equals(EventType.VIEW)) result=null;
             }
         } catch (Exception e) {
             e.printStackTrace();
