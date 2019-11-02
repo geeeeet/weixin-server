@@ -20,24 +20,25 @@ public class EventType {
      * 二维码还有EventKey辅助判断，EventKey事件KEY值，qrscene_为前缀，
      * 后面为二维码的参数值）
      */
-    public static final String qrcode = "subscribe";
+    public static final String QRCODE = "subscribe";
     /**
      * 用户已关注时的事件推送，还需要EventKey事件KEY值，
      * 是一个32位无符号整数，即创建二维码时的二维码scene_id
      */
-    public static final String SCAN = "scan";
+    public static final String SCAN = "SCAN";
+
     /**
      * 上报地理位置事件
      */
-    public static final String LOCATION = "location";
+    public static final String LOCATION = "LOCATION";
     /**
      * 点击菜单拉取消息时的事件推送
      */
-    public static final String CLICK = "click";
+    public static final String CLICK = "CLICK";
     /**
      * 点击菜单跳转链接时的事件推送
      */
-    public static final String VIEW = "view";
+    public static final String VIEW = "VIEW";
     /**
      * scancode_push：扫码推事件的事件推送
      */
