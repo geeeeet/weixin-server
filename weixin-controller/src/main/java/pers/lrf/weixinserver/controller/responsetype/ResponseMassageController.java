@@ -3,7 +3,6 @@ package pers.lrf.weixinserver.controller.responsetype;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pers.lrf.weixinserver.controller.BaseController;
 import pers.lrf.weixinserver.service.interfaces.IResponseMassage;
 
 /**

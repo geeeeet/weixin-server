@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pers.lrf.weixinserver.common.constant.MsgType;
 import pers.lrf.weixinserver.common.constant.SafeXml;
 import pers.lrf.weixinserver.common.utils.MessageUtils;
-import pers.lrf.weixinserver.service.interfaces.IImageMeassage;
+import pers.lrf.weixinserver.service.textmessage.image.interfaces.IImageMeassage;
 import pers.lrf.weixinserver.weixinbean.message.normal.WxImageMessage;
 import pers.lrf.weixinserver.weixinbean.message.normal.submessage.ImageMessage;
 

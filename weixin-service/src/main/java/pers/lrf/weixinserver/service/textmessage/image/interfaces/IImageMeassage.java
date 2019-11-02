@@ -1,4 +1,4 @@
-package pers.lrf.weixinserver.service.interfaces;
+package pers.lrf.weixinserver.service.textmessage.image.interfaces;
 
 import java.util.Map;
 
