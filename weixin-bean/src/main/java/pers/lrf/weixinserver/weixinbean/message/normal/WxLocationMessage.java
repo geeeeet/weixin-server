@@ -2,13 +2,15 @@ package pers.lrf.weixinserver.weixinbean.message.normal;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 地理位置消息
  * @author lirufeng
  * @date 2019/11/01 下午 11:19
  */
 @Data
-public class WxLocationMessage extends BaseMessage {
+public class WxLocationMessage extends BaseMessage implements Serializable {
 
     /**
      * 地理位置维度
