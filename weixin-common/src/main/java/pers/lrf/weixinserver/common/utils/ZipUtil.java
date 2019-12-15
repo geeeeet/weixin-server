@@ -60,7 +60,7 @@ public class ZipUtil {
             return;
         }
         try {/*内网*/
-            URL U = new URL(url.replace("video.zhihuishu.com", "video-zhihuishu.oss-cn-hangzhou-internal.aliyuncs.com"));
+            URL U = new URL("https:www.xxx.com");
             HttpURLConnection conn = (HttpURLConnection) U.openConnection();
             //设置超时间为3秒
             conn.setConnectTimeout(5 * 1000);
@@ -78,7 +78,7 @@ public class ZipUtil {
         } catch (Exception e) {
             e.printStackTrace();
             try {/*公网*/
-                URL U = new URL(url.replace("video.zhihuishu.com", "video-zhihuishu.oss-cn-hangzhou.aliyuncs.com"));
+                URL U = new URL("https:www.xxx.com");
                 HttpURLConnection conn = (HttpURLConnection) U.openConnection();
                 //设置超时间为3秒
                 conn.setConnectTimeout(5 * 1000);
