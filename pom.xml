@@ -28,7 +28,7 @@
         <mybatis-version>3.5.2</mybatis-version>
         <org-aspectj-version>1.8.5</org-aspectj-version>
         <mybatis-spring-version>2.0.0</mybatis-spring-version>
-        <mysql-connector-java-version>5.1.34</mysql-connector-java-version>
+        <mysql-connector-java-version>8.0.16</mysql-connector-java-version>
         <oracle-connector-java-version>12.1.0.2</oracle-connector-java-version>
         <sqlserver-connector-java-version>7.4.1.jre8</sqlserver-connector-java-version>
         <springfox-version>2.4.0</springfox-version>
