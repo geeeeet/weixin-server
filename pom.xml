@@ -32,7 +32,7 @@
         <oracle-connector-java-version>12.1.0.2</oracle-connector-java-version>
         <sqlserver-connector-java-version>7.4.1.jre8</sqlserver-connector-java-version>
         <springfox-version>2.4.0</springfox-version>
-        <fastjson-version>1.2.61</fastjson-version>
+        <fastjson-version>1.2.83</fastjson-version>
         <servlet-api-version>3.1.0</servlet-api-version>
         <lombok-version>1.16.10</lombok-version>
         <httpclient-version>4.5.2</httpclient-version>
